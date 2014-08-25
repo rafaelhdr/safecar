@@ -1,2 +1,3 @@
 safecar/settings.py
+*.pyc
 
