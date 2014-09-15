@@ -4,14 +4,46 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <div class="alert alert-success" role="alert">
-        Seu carro está seguro: <strong>Trancado</strong> e <strong>Parado</strong>
-      </div>
-      <div class="btn-group te">
-        <button type="button" class="btn btn-default">Destrancar</button>
-        <button type="button" class="btn btn-default">Ligar</button>
-        <button type="button" class="btn btn-default">Tocar alarme</button>
-      </div>
+      <h2 class="text-center">Seu carro está: </h2>
+      <p class="text-center">
+        <span class="btn-group">
+          {% if car.is_locked %}
+          <button type="button" class="btn btn-success">Trancado</button>
+          {% else %}
+          <button type="button" class="btn btn-warning">Destrancado</button>
+          {% endif %}
+          {% if car.is_turnedon %}
+          <button type="button" class="btn btn-warning">Andando</button>
+          {% else %}
+          <button type="button" class="btn btn-success">Parado</button>
+          {% endif %}
+          {% if car.play_alarm %}
+          <button type="button" class="btn btn-success">Alarme ligado</button>
+          {% else %}
+          <button type="button" class="btn btn-warning">Alarme desligado</button>
+          {% endif %}
+        </span>
+      </p>
+      <h2 class="text-center">O que deseja fazer?</h2>
+      <p class="text-center">
+        <span class="btn-group">
+          {% if car.is_locked %}
+          <button type="button" class="btn btn-default mark-status" data-action="unlock">Destrancar</button>
+          {% else %}
+          <button type="button" class="btn btn-default mark-status" data-action="lock">Trancar</button>
+          {% endif %}
+          {% if car.is_turnedon %}
+          <button type="button" class="btn btn-default mark-status" data-action="turnoff">Desligar</button>
+          {% else %}
+          <button type="button" class="btn btn-default mark-status" data-action="turnon">Ligar</button>
+          {% endif %}
+          {% if car.play_alarm %}
+          <button type="button" class="btn btn-default mark-status" data-action="unplay_alarm">Parar alarme</button>
+          {% else %}
+          <button type="button" class="btn btn-default mark-status" data-action="play_alarm">Tocar alarme</button>
+          {% endif %}
+        </span>
+      </p>
     </div>
   </div>
 </div>
