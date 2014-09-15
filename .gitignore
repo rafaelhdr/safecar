@@ -1,3 +1,4 @@
 safecar/settings.py
 *.pyc
+db.sqlite3
 

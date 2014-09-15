@@ -3,10 +3,14 @@
 {% block content %}
 <div class="container">
 
-  <form class="form-signin" role="form" action="dashboard">
+  <form class="form-signin" role="form" method="POST">
+  	{% csrf_token %}
     <h2 class="form-signin-heading">Entrar</h2>
-    <input type="email" class="form-control" placeholder="Email" required="" autofocus="">
-    <input type="password" class="form-control" placeholder="Senha" required="">
+    {% if warn_error %}
+    <div class="alert alert-danger" role="alert">Login ou senha preenchidos incorretamente!</div>
+    {% endif %}
+    <input type="text" name="username" class="form-control" placeholder="Nome de usuário" required="" autofocus="">
+    <input type="password" name="password" class="form-control" placeholder="Senha" required="">
     <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
   </form>
 
