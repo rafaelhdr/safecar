@@ -9,6 +9,7 @@ from django.http import HttpResponse
 from safecar.models import Car
 import json
 
+@csrf_exempt
 def home(request):
     context = {}
     if request.method == 'POST':
@@ -65,3 +66,35 @@ def mark_status(request):
         response_data['car']['play_alarm'] = car.play_alarm
 
         return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+@csrf_exempt
+def api_login(request):
+    """
+    Do login of the user
+
+    **Context**
+
+    None
+
+    **Template:**
+
+    None
+    """
+    response_data = {}
+    if request.method == 'POST':
+        response_data = {}
+
+        # Login actions
+
+        user = authenticate(username=request.POST['username'], password=request.POST['password'])
+        if user is None:
+            response_data['result'] = 'fail'
+            response_data['message'] = 'Login ou senha estão incorretos! Por favor, verifique.'
+            return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+        else:
+            login(request, user)
+            response_data['result'] = 'success'
+            response_data['message'] = 'Login feito com sucesso!'
+            return HttpResponse(json.dumps(response_data), content_type="application/json")
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
