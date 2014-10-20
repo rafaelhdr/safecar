@@ -3,8 +3,16 @@
 	function Map(selector) {
 		this.element		=	$(selector)[0];
 			
-		this.init			=	function(lat, lng, zoom) {	
-			var position	=	this.latLng(lat, lng);
+		this.center			=	function() {
+			this.map.setCenter(Map.latLng(this.lat, this.lng));
+			
+			return this;
+		}
+		this.init			=	function(lat, lng, zoom) {
+			var position	=	Map.latLng(lat, lng);
+			
+			this.setLatLng(lat, lng, false);
+			this.setZoom(zoom, false);
 				
 			this.map		=	new google.maps.Map(this.element, 
 									{
@@ -16,7 +24,38 @@
 			return this;
 		}
 		this.locate			=	function(lat, lng, zoom) {
-			var position	=	this.latLng(lat, lng);
+			this.setLatLng(lat, lng, true);
+			this.zoom(zoom, true);
+			
+			return this;
+		}
+		this.setLat			=	function(lat, update) {
+			this.lat		=	1 * lat;
+			
+			if (update || update === undefined)
+				this.updateLatLng();
+		}
+		this.setLatLng		=	function(lat, lng, update) {
+			this.setLat(lat, false);
+			this.setLng(lng, false);
+			
+			if (update || update === undefined)
+				this.updateLatLng();
+		}
+		this.setLng			=	function(lng, update) {
+			this.lng		=	1 * lng;
+			
+			if (update || update === undefined)
+				this.updateLatLng();
+		}
+		this.setZoom		=	function(zoom, update) {
+			this.z			=	1 * zoom;
+			
+			if (update || update === undefined)
+				this.updateZoom();
+		}
+		this.updateLatLng	=	function() {
+			var position	=	Map.latLng(this.lat, this.lng);
 			
 			if (this.marker)
 				this.marker.setPosition(position);
@@ -29,22 +68,22 @@
 											animation:	google.maps.Animation.DROP	
 										});
 			}
-			
-			this.map.setCenter(position);
-			
-			this.zoom(zoom);
-			
-			return this;
 		}
-		this.latLng			=	function(lat, lng) {
-			return new google.maps.LatLng(lat, lng);
+		this.updateZoom		=	function() {
+			this.map.setZoom(this.z);
 		}
 		this.zoom			=	function(zoom) {
 			if (zoom !== undefined)
-				this.map.setZoom(zoom);
+				this.setZoom(zoom, true);
+			
+			return this;
 		}
 		
-		this.init(-23.557, -46.73, 11);
+		//this.init(-23.557, -46.73, 11);
+		this.init(0, 0, 1);
+	}
+	Map.latLng				=	function(lat, lng) {
+		return new google.maps.LatLng(lat, lng);
 	}
 	function $Map(selector) {
 		return new Map(selector);
