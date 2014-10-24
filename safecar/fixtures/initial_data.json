@@ -284,6 +284,8 @@
       "is_turnedon": false, 
       "is_locked": false, 
       "is_walking": false, 
+      "latitude": 0.0, 
+      "longitude": 0.0, 
       "user": 1, 
       "play_alarm": false
    }

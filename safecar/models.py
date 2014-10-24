@@ -10,6 +10,8 @@ class Car(models.Model):
     is_locked = models.BooleanField()
     is_walking = models.BooleanField()
     play_alarm = models.BooleanField()
+    latitude = models.FloatField()
+    longitude = models.FloatField()
 
     def __unicode__(self):
         """Display title as instance information"""

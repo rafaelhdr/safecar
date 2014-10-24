@@ -38,6 +38,27 @@ def map(request):
 
 @login_required
 @csrf_exempt
+def set_location(request):
+    if request.method == 'POST':
+        response_data = {}
+        car = Car.objects.get(user=request.user)
+
+        latitude = request.POST.get('latitude', None)
+        longitude = request.POST.get('longitude', None)
+
+        if (latitude, longitude) != (None, None):
+            car.latitude = latitude
+            car.longitude = longitude
+            car.save()
+
+        response_data['car'] = {}
+        response_data['car']['latitude'] = car.latitude
+        response_data['car']['longitude'] = car.longitude
+
+        return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+@login_required
+@csrf_exempt
 def mark_status(request):
     if request.method == 'POST':
         response_data = {}

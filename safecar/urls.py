@@ -8,6 +8,7 @@ urlpatterns = patterns('',
     url(r'^dashboard$', 'web.views.dashboard', name='dashboard'),
     url(r'^map$', 'web.views.map', name='map'),
     url(r'^api/car/mark-status$', 'web.views.mark_status', name='mark_status'),
+    url(r'^api/car/set-location$', 'web.views.set_location', name='set_location'),
     url(r'^api/login$', 'web.views.api_login', name='api_login'),
 
     url(r'^admin/', include(admin.site.urls)),
