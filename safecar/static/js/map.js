@@ -8,6 +8,31 @@
 			
 			return this;
 		}
+		this.getJSON		=	function(URL, interval, initCallback, periodicCallback) {
+			var t			=	this;
+			
+			$.get(URL, function(data) {
+				try {
+					console.debug(data);
+					var position	= data; //=	JSON.parse(data);
+					
+					t.locate(position.lat, position.lng);
+					
+					if (typeof initCallback === 'function')
+						initCallback.bind(t)();
+					if (typeof periodicCallback === 'function')
+						periodicCallback.bind(t)();
+				} catch (e) {
+					//
+				}
+			});
+		
+			if (interval) {
+				setTimeout(function() {
+					t.getJSON(URL, interval, null, periodicCallback);
+				}, interval);
+			}
+		}
 		this.init			=	function(lat, lng, zoom) {
 			var position	=	Map.latLng(lat, lng);
 			

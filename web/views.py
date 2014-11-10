@@ -37,9 +37,14 @@ def map(request):
     return render_to_response('web/map.html', context, context_instance=RequestContext(request))
 
 @login_required
+def map_iframe(request):
+    context = {}
+    return render_to_response('web/map-iframe.html', context, context_instance=RequestContext(request))
+
+@login_required
 @csrf_exempt
 def set_location(request):
-    if request.method == 'POST':
+    if request.method == 'POST' or request.method == 'GET':
         response_data = {}
         car = Car.objects.get(user=request.user)
 
@@ -54,6 +59,8 @@ def set_location(request):
         response_data['car'] = {}
         response_data['car']['latitude'] = car.latitude
         response_data['car']['longitude'] = car.longitude
+        response_data['lat'] = car.latitude
+        response_data['lng'] = car.longitude
 
         return HttpResponse(json.dumps(response_data), content_type="application/json")
 
